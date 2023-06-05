@@ -10,4 +10,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String @unique @default(cuid())
+  username String
+  password String
+  email    String
 
+  characters Character[]
+}
+
+model Game {
+  id          String @unique @default(cuid())
+  name        String
+  description String
+  password    String
+  url         String
+
+  characters Character[]
+
+  @@map("game")
+}
+
+model Dialog {
+  id    String @unique @default(cuid())
+  title String
+  url   String
+
+  class       Character[] @relation("class")
+  race        Character[] @relation("race")
+  background  Character[] @relation("background")
+  Character   Character?  @relation(fields: [characterId], references: [id])
+  characterId String?
+
+  @@map("dialog")
+}
+
+model Character {
+  id String @unique @default(cuid())
+
+  name  String
+  class Dialog @relation("class", fields: [classId], references: [id])
+  race  Dialog @relation("race", fields: [raceId], references: [id])
+  level String
+  age   String
+
+  background Dialog @relation("background", fields: [backgroundId], references: [id])
+  traits     Int
+  ideals     Int
+  bonds      Int
+  flaws      Int
+  language   String
+
+  classId      String @map("class")
+  raceId       String @map("race")
+  backgroundId String @map("background")
+
+  game   Game     @relation(fields: [gameId], references: [id])
+  gameId String
+  User   User?    @relation(fields: [userId], references: [id])
+  userId String?
+  Dialog Dialog[]
+
+  @@map("character")
+}
