@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { UnauthorizedError } from './errors/unauthorized.error';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
-import { UserPayload } from './models/UserPayload';
+import { UserPayload } from './models/UserPaylod';
 import { UserToken } from './models/UserToken';
 
 @Injectable()
